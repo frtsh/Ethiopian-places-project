@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registration Page</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(120deg, #2980b9, #6dd5fa);
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background-color: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-top: 5px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      background-color: #3498db;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .login-link a {
+      color: #3498db;
+      text-decoration: none;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Register</h2>
+    <form action="register" method="POST">
+    {% csrf_token %}
+        
+      <label for="fullname">First Name</label>
+      <input type="text" id="first_name" name="first_name" required>
+
+      <label for="fullname">Last Name</label>
+      <input type="text" id="last_name" name="last_name" required>
+ 
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required>
+
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+
+      <label for="confirm-password">Confirm Password</label>
+      <input type="password" id="confirm-password" name="confirm-password" required>
+    <div>
+      {% for message in messages %}
+      <h3 style="color:red"> {{message}} </h3>
+      {%endfor%}
+    </div>
+      <button type="submit">Register</button>
+
+    
+    </form>
+    
+  </div>
+  
+</body>
+</html>

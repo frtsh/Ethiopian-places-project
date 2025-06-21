@@ -1,0 +1,22 @@
+# Virtual environment
+venv/
+
+# Python bytecode
+pycache/
+*.py[cod]
+
+# SQLite database
+*.sqlite3
+
+# Django collected static files
+staticfiles/
+
+# Uploaded media
+media/
+
+# Secret environment files
+.env
+
+# VS Code / PyCharm
+.vscode/
+.idea/
