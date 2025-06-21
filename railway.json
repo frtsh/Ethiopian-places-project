@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn ethiopian_places.wsgi",
+    "startCommand": "python manage.py migrate && python manage.py collectstatic --no-input && gunicorn ethiopian_places.wsgi --log-file -",
     "healthcheckPath": "/",
     "healthcheckTimeout": 100,
     "restartPolicyType": "ON_FAILURE",
