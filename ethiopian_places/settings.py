@@ -32,13 +32,10 @@ ALLOWED_HOSTS = ['*']
 
 # CSRF Trusted Origins for Railway deployment
 CSRF_TRUSTED_ORIGINS = [
-    'https://ethiopian-places-project-production.up.railway.app',
     'https://ethiopian-places-project-production-6f93.up.railway.app',
+    'https://ethiopian-places-project-production.up.railway.app',
     'https://*.up.railway.app',
     'https://*.railway.app',
-    'https://railway.app',
-    'https://*.railway.app',
-    'https://ethiopian-places-project-production.up.railway.app/',
 ]
 
 # Additional security settings for Railway
@@ -70,7 +67,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',  # Add whitenoise for static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',  # Temporarily disabled for testing
+    'django.middleware.csrf.CsrfViewMiddleware',  # Re-enabled CSRF middleware
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
