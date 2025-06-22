@@ -165,3 +165,4 @@ if not DEBUG:
 # Disable SSL redirect during testing
 if 'test' in sys.argv:
     SECURE_SSL_REDIRECT = False
+    APPEND_SLASH = False  # Disable trailing slash redirects during testing
