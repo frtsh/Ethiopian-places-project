@@ -27,9 +27,15 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-3#fx5qcswt^2uxk5c%mc9
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    '.railway.app',
+    'localhost',
+    '127.0.0.1',
+    'ethiopian-places-project-production.up.railway.app',
+    'ethiopian-places-project-production-6f93.up.railway.app',
+]
 
 # CSRF Trusted Origins for Railway deployment
 CSRF_TRUSTED_ORIGINS = [
@@ -40,7 +46,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 # Additional security settings for Railway
-CSRF_COOKIE_SECURE = True  # Re-enabled for security
+CSRF_COOKIE_SECURE = not DEBUG  # Only secure in production
 CSRF_COOKIE_HTTPONLY = False
 CSRF_USE_SESSIONS = False
 CSRF_COOKIE_SAMESITE = 'Lax'  # Re-enabled for security
@@ -161,6 +167,15 @@ if not DEBUG:
     # Only redirect to HTTPS in production, not during testing
     SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT', 'True') == 'True'
     SESSION_COOKIE_SECURE = True
+else:
+    # Disable SSL redirect for local development
+    SECURE_SSL_REDIRECT = False
+    SECURE_BROWSER_XSS_FILTER = False
+    SECURE_CONTENT_TYPE_NOSNIFF = False
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    SECURE_HSTS_SECONDS = 0
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
 
 # Disable SSL redirect during testing
 if 'test' in sys.argv:
