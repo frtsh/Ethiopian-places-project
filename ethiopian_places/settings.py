@@ -39,10 +39,10 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 # Additional security settings for Railway
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True  # Re-enabled for security
 CSRF_COOKIE_HTTPONLY = False
 CSRF_USE_SESSIONS = False
-CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'  # Re-enabled for security
 
 
 # Application definition
@@ -62,7 +62,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',  # Add whitenoise for static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',  # Temporarily disabled for testing
+    'django.middleware.csrf.CsrfViewMiddleware',  # Re-enabled CSRF middleware
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
