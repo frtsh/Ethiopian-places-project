@@ -44,11 +44,6 @@ CSRF_COOKIE_HTTPONLY = False
 CSRF_USE_SESSIONS = False
 CSRF_COOKIE_SAMESITE = 'Lax'
 
-# Temporary: Disable CSRF for admin login (remove this in production)
-CSRF_EXEMPT_URLS = [
-    r'^admin/login/$',
-]
-
 
 # Application definition
 
@@ -67,7 +62,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',  # Add whitenoise for static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',  # Re-enabled CSRF middleware
+    # 'django.middleware.csrf.CsrfViewMiddleware',  # Temporarily disabled for testing
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
