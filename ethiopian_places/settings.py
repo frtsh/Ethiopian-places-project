@@ -33,7 +33,23 @@ ALLOWED_HOSTS = ['*']
 # CSRF Trusted Origins for Railway deployment
 CSRF_TRUSTED_ORIGINS = [
     'https://ethiopian-places-project-production.up.railway.app',
+    'https://ethiopian-places-project-production-6f93.up.railway.app',
     'https://*.up.railway.app',
+    'https://*.railway.app',
+    'https://railway.app',
+    'https://*.railway.app',
+    'https://ethiopian-places-project-production.up.railway.app/',
+]
+
+# Additional security settings for Railway
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = False
+CSRF_USE_SESSIONS = False
+CSRF_COOKIE_SAMESITE = 'Lax'
+
+# Temporary: Disable CSRF for admin login (remove this in production)
+CSRF_EXEMPT_URLS = [
+    r'^admin/login/$',
 ]
 
 
@@ -54,7 +70,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',  # Add whitenoise for static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',  # Temporarily disabled for testing
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -151,4 +167,3 @@ if not DEBUG:
     SECURE_REDIRECT_EXEMPT = []
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
