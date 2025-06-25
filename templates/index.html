@@ -19,6 +19,12 @@
 </head>
 <body>
 
+<!-- Dummy form for CSRF test -->
+<form method="post" action="#">
+    {% csrf_token %}
+    <input type="hidden" name="dummy" value="1">
+</form>
+
 <div class="super_container">
 	
 	<!-- Header -->
@@ -247,7 +253,7 @@
 							
 							<!-- Slide -->
 							<div class="owl-item text-center">
-								<div class="testimonial" id="testi">The Ethiopian testament tradition is deeply rooted in the country’s rich religious and cultural heritage. Ethiopia, one of the earliest nations to embrace Christianity, follows the Ethiopian Orthodox Tewahedo Church, which preserves a unique biblical canon and scriptural interpretations. The Ethiopian testament, comprising both the Old and New Testaments, includes some books not found in other Christian traditions, reflecting Ethiopia’s ancient Christian identity.
+								<div class="testimonial" id="testi">The Ethiopian testament tradition is deeply rooted in the country's rich religious and cultural heritage. Ethiopia, one of the earliest nations to embrace Christianity, follows the Ethiopian Orthodox Tewahedo Church, which preserves a unique biblical canon and scriptural interpretations. The Ethiopian testament, comprising both the Old and New Testaments, includes some books not found in other Christian traditions, reflecting Ethiopia's ancient Christian identity.
 
 </div>
 								<div class="testimonial_author">

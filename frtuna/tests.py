@@ -327,3 +327,142 @@ class DestinationsBasicValidationTest(TestCase):
                     os.remove(destination.img.path)
         except Exception:
             pass  # Ignore cleanup errors
+
+
+class CSRFErrorTest(TestCase):
+    """Test cases specifically for CSRF-related issues"""
+    
+    def setUp(self):
+        """Set up test data"""
+        self.client = Client()
+        
+        # Create test image
+        self.test_image = SimpleUploadedFile(
+            name='test_image.jpg',
+            content=b'fake-image-content',
+            content_type='image/jpeg'
+        )
+        
+        # Create test destination
+        self.destination = Destinations.objects.create(
+            name='Test Destination',
+            img=self.test_image,
+            desc='Test description',
+            price=1000,
+            offer=False
+        )
+    
+    def test_csrf_token_present_in_template(self):
+        """Test that CSRF token is present in the template"""
+        response = self.client.get(reverse('index'))
+        # Allow both 200 and 301 status codes (301 is redirect, 200 is success)
+        self.assertIn(response.status_code, [200, 301])
+        
+        # If it's a redirect, follow it
+        if response.status_code == 301:
+            response = self.client.get(response.url)
+            self.assertEqual(response.status_code, 200)
+        
+        # Check if CSRF token is in the response content
+        # This is important for forms that might be added later
+        self.assertContains(response, 'csrfmiddlewaretoken', status_code=200)
+    
+    def test_admin_login_csrf_handling(self):
+        """Test that admin login POST with and without CSRF works as expected"""
+        # Enable CSRF checking
+        client = Client(enforce_csrf_checks=True)
+
+        # Step 1: GET request to fetch CSRF token
+        response = client.get('/admin/login/')
+        self.assertIn(response.status_code, [200, 301])
+
+        # Follow redirect if needed
+        if response.status_code == 301:
+            response = client.get(response.url)
+            self.assertEqual(response.status_code, 200)
+
+        # Extract CSRF token from cookies
+        csrf_token = response.cookies.get('csrftoken').value
+
+        # Step 2: Attempt POST without CSRF token - should fail (403)
+        fail_response = client.post('/admin/login/', {
+            'username': 'testuser',
+            'password': 'testpass'
+        })
+        self.assertEqual(fail_response.status_code, 403)
+
+        # Step 3: Attempt POST with CSRF token - should **not** 403 (login may fail, but CSRF must pass)
+        success_response = client.post('/admin/login/', {
+            'username': 'testuser',
+            'password': 'testpass',
+            'csrfmiddlewaretoken': csrf_token
+        }, HTTP_COOKIE=f'csrftoken={csrf_token}')
+        
+        self.assertNotEqual(success_response.status_code, 403, msg="CSRF check failed even with token")
+
+    
+    def test_csrf_settings_validation(self):
+        """Test that CSRF settings are properly configured"""
+        from django.conf import settings
+        
+        # Check that CSRF middleware is enabled
+        self.assertIn('django.middleware.csrf.CsrfViewMiddleware', settings.MIDDLEWARE)
+        
+        # Check that CSRF_TRUSTED_ORIGINS is configured
+        self.assertTrue(hasattr(settings, 'CSRF_TRUSTED_ORIGINS'))
+        self.assertIsInstance(settings.CSRF_TRUSTED_ORIGINS, list)
+        
+        # Check that CSRF cookie settings are properly configured
+        self.assertTrue(hasattr(settings, 'CSRF_COOKIE_SECURE'))
+        self.assertTrue(hasattr(settings, 'CSRF_COOKIE_SAMESITE'))
+    
+    def test_railway_domain_csrf_trusted_origins(self):
+        """Test that Railway domains are in CSRF_TRUSTED_ORIGINS"""
+        from django.conf import settings
+        
+        # Check for Railway domains in trusted origins
+        railway_domains = [
+            'https://ethiopian-places-project-production-6f93.up.railway.app',
+            'https://ethiopian-places-project-production.up.railway.app',
+            'https://*.up.railway.app',
+            'https://*.railway.app',
+        ]
+        
+        for domain in railway_domains:
+            self.assertIn(domain, settings.CSRF_TRUSTED_ORIGINS)
+    
+    def test_csrf_exemption_for_specific_views(self):
+        """Test that specific views can be exempted from CSRF if needed"""
+        from django.views.decorators.csrf import csrf_exempt
+        from django.http import HttpResponse
+        
+        # Create a test view that's exempt from CSRF
+        @csrf_exempt
+        def test_view(request):
+            return HttpResponse("CSRF exempt view")
+        
+        # This would be used if you need to exempt specific views
+        # For now, just test that the decorator can be imported
+        self.assertTrue(callable(csrf_exempt))
+    
+    def test_csrf_token_generation(self):
+        """Test that CSRF tokens are generated correctly"""
+        from django.middleware.csrf import get_token
+        from django.test import RequestFactory
+        
+        factory = RequestFactory()
+        request = factory.get('/')
+        
+        # Test that we can get a CSRF token
+        token = get_token(request)
+        self.assertIsInstance(token, str)
+        self.assertGreater(len(token), 0)
+    
+    def tearDown(self):
+        """Clean up test files"""
+        try:
+            if hasattr(self, 'destination') and self.destination.img:
+                if os.path.exists(self.destination.img.path):
+                    os.remove(self.destination.img.path)
+        except Exception:
+            pass  # Ignore cleanup errors

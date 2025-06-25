@@ -27,11 +27,7 @@ This guide will help you deploy your Ethiopian Places Django project to Railway.
 
 ### Step 4: Configure Environment Variables
 In your Railway project settings, add these variables:
-
-**Required Variables:**
-```
-SECRET_KEY=your-secret-key-here
-DEBUG=False
+t
 ```
 
 **Optional Variables:**
