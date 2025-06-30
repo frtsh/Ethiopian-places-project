@@ -1,0 +1,101 @@
+[
+{
+  "model": "frtuna.destinations",
+  "pk": 1,
+  "fields": {
+    "name": "Lalibela",
+    "img": "pics/lalibela_4OUs825.jpg",
+    "desc": "Famous for its rock-hewn churches, Lalibela is a UNESCO World Heritage site and one of Ethiopia's most important religious destinations. The 11 medieval churches carved out of rock are a marvel of engineering and faith.",
+    "price": 2500,
+    "offer": true
+  }
+},
+{
+  "model": "frtuna.destinations",
+  "pk": 3,
+  "fields": {
+    "name": "Axum",
+    "img": "pics/axum.webp",
+    "desc": "The ancient capital of the Aksumite Empire, Axum is home to towering obelisks, ancient tombs, and the Church of St. Mary of Zion, which is said to house the Ark of the Covenant.",
+    "price": 2200,
+    "offer": false
+  }
+},
+{
+  "model": "frtuna.destinations",
+  "pk": 4,
+  "fields": {
+    "name": "Simien Mountains",
+    "img": "pics/semian_mountain.webp",
+    "desc": "A UNESCO World Heritage site featuring dramatic landscapes, rare wildlife including the Gelada baboon, and some of Africa's highest peaks. Perfect for trekking and wildlife viewing.",
+    "price": 3000,
+    "offer": false
+  }
+},
+{
+  "model": "frtuna.destinations",
+  "pk": 5,
+  "fields": {
+    "name": "Bahir Dar",
+    "img": "pics/bahrdar.webp",
+    "desc": "Located on the shores of Lake Tana, Bahir Dar is known for its beautiful monasteries on islands, the Blue Nile Falls, and a pleasant climate. A perfect blend of nature and culture.",
+    "price": 1600,
+    "offer": true
+  }
+},
+{
+  "model": "frtuna.destinations",
+  "pk": 6,
+  "fields": {
+    "name": "Harar",
+    "img": "pics/harar.webp",
+    "desc": "A walled city with 82 mosques and 102 shrines, Harar is the fourth holiest city of Islam. Known for its unique architecture, colorful markets, and the tradition of feeding hyenas.",
+    "price": 1400,
+    "offer": false
+  }
+},
+{
+  "model": "frtuna.destinations",
+  "pk": 7,
+  "fields": {
+    "name": "kuriftu",
+    "img": "pics/kuriftu_m8P8Gim.jpg",
+    "desc": "Kuriftu Resorts & Spa (Amharic: ኩሪፍቱ ሪዞርትና ስፓ) is a hotel chain in Ethiopia, serving Djibouti and Moucha Island. Founded, managed and operated by the Boston Partners Group in cooperation with Tadiwos Belete in 2002, the resort has various branches in Ethiopia; one of the main branch is located in Bishoftu, whereas the other in Bahir Dar, Adama, Langano and Semera.",
+    "price": 2800,
+    "offer": true
+  }
+},
+{
+  "model": "frtuna.destinations",
+  "pk": 8,
+  "fields": {
+    "name": "entoto",
+    "img": "pics/entoto_C2rQkGT.jpg",
+    "desc": "Entoto Natural Park (Amharic: እንጦጦ ፓርክ) is a natural park located northeast of Addis Ababa, Ethiopia on the southeastern slopes of Mount Entoto, covering an area of 1,300 hectares. It is situated at an altitude of between 2,600 and 3,100 meters.",
+    "price": 1000,
+    "offer": true
+  }
+},
+{
+  "model": "frtuna.destinations",
+  "pk": 9,
+  "fields": {
+    "name": "gerialta",
+    "img": "pics/geralta_vcEsEQe.jpg",
+    "desc": "One of the better known churches in the area is Abuna Yemata Guh. The church lies beyond a narrow slowly crumbling sandstone walkway.\r\n\r\nWhat started as a small collection of hermitage caves hidden behind a knackered wooden door, the area was slowly expanded over time to what is now a sprawling series of caves, all illuminated by dim flickering candles.",
+    "price": 1900,
+    "offer": false
+  }
+},
+{
+  "model": "frtuna.destinations",
+  "pk": 10,
+  "fields": {
+    "name": "Mariam Tsion",
+    "img": "pics/mariam_yBLKakL.jpg",
+    "desc": "The Church of St Mary of Zion is built on the site of the first Christian church in sub Saharan Africa, which was constructed during the reign of Ezana, King of Axum, in the 4th century AD.",
+    "price": 800,
+    "offer": true
+  }
+}
+]

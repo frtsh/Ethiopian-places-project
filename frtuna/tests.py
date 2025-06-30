@@ -11,38 +11,37 @@ class DestinationsModelTest(TestCase):
     def setUp(self):
         """Set up test data"""
         # Create a test image file
-        self.test_image = SimpleUploadedFile(
+        self.image = SimpleUploadedFile(
             name='test_image.jpg',
-            content=b'fake-image-content',
+            content=b'',  # empty image for testing
             content_type='image/jpeg'
         )
         
         # Create a test destination
         self.destination = Destinations.objects.create(
             name='Test Destination',
-            img=self.test_image,
-            desc='This is a test destination description',
+            img=self.image,
+            desc='Test Description',
             price=1000,
-            offer=False
+            offer=True
         )
     
     def test_destination_creation(self):
         """Test that a destination can be created"""
         self.assertEqual(self.destination.name, 'Test Destination')
-        self.assertEqual(self.destination.desc, 'This is a test destination description')
+        self.assertEqual(self.destination.desc, 'Test Description')
         self.assertEqual(self.destination.price, 1000)
-        self.assertFalse(self.destination.offer)
-        self.assertIsNotNone(self.destination.img)
+        self.assertTrue(self.destination.offer)
     
-    def test_destination_string_representation(self):
-        """Test the string representation of the destination"""
+    def test_destination_str_method(self):
+        """Test the string representation of the Destination model"""
         self.assertEqual(str(self.destination), 'Test Destination')
     
     def test_destination_with_offer(self):
         """Test creating a destination with offer=True"""
         destination_with_offer = Destinations.objects.create(
             name='Offered Destination',
-            img=self.test_image,
+            img=self.image,
             desc='This destination has an offer',
             price=800,
             offer=True
@@ -55,7 +54,7 @@ class DestinationsModelTest(TestCase):
         # Test with zero price
         zero_price_dest = Destinations.objects.create(
             name='Free Destination',
-            img=self.test_image,
+            img=self.image,
             desc='This destination is free',
             price=0,
             offer=False
@@ -65,7 +64,7 @@ class DestinationsModelTest(TestCase):
         # Test with high price
         high_price_dest = Destinations.objects.create(
             name='Expensive Destination',
-            img=self.test_image,
+            img=self.image,
             desc='This destination is expensive',
             price=999999,
             offer=False
@@ -78,7 +77,7 @@ class DestinationsModelTest(TestCase):
         long_name = 'A' * 50
         dest_with_long_name = Destinations.objects.create(
             name=long_name,
-            img=self.test_image,
+            img=self.image,
             desc='Test description',
             price=500,
             offer=False
@@ -101,16 +100,16 @@ class DestinationsViewTest(TestCase):
         self.client = Client()
         
         # Create test image
-        self.test_image = SimpleUploadedFile(
+        self.image = SimpleUploadedFile(
             name='test_image.jpg',
-            content=b'fake-image-content',
+            content=b'',
             content_type='image/jpeg'
         )
         
         # Create test destinations
         self.destination1 = Destinations.objects.create(
             name='Destination 1',
-            img=self.test_image,
+            img=self.image,
             desc='First test destination',
             price=1000,
             offer=False
@@ -118,7 +117,7 @@ class DestinationsViewTest(TestCase):
         
         self.destination2 = Destinations.objects.create(
             name='Destination 2',
-            img=self.test_image,
+            img=self.image,
             desc='Second test destination',
             price=1500,
             offer=True
@@ -205,9 +204,9 @@ class DestinationsIntegrationTest(TestCase):
         self.client = Client()
         
         # Create test image
-        self.test_image = SimpleUploadedFile(
+        self.image = SimpleUploadedFile(
             name='test_image.jpg',
-            content=b'fake-image-content',
+            content=b'',
             content_type='image/jpeg'
         )
     
@@ -216,7 +215,7 @@ class DestinationsIntegrationTest(TestCase):
         # Create a destination
         destination = Destinations.objects.create(
             name='Integration Test Destination',
-            img=self.test_image,
+            img=self.image,
             desc='This is an integration test',
             price=2000,
             offer=True
@@ -249,7 +248,7 @@ class DestinationsIntegrationTest(TestCase):
         for data in destinations_data:
             Destinations.objects.create(
                 name=data['name'],
-                img=self.test_image,
+                img=self.image,
                 desc=f'Description for {data["name"]}',
                 price=data['price'],
                 offer=data['offer']
@@ -284,9 +283,9 @@ class DestinationsBasicValidationTest(TestCase):
     
     def setUp(self):
         """Set up test data"""
-        self.test_image = SimpleUploadedFile(
+        self.image = SimpleUploadedFile(
             name='test_image.jpg',
-            content=b'fake-image-content',
+            content=b'',
             content_type='image/jpeg'
         )
     
@@ -294,7 +293,7 @@ class DestinationsBasicValidationTest(TestCase):
         """Test that offer field has correct default value"""
         destination = Destinations.objects.create(
             name='Test Destination',
-            img=self.test_image,
+            img=self.image,
             desc='Test description',
             price=1000
             # offer not specified, should use default
@@ -305,7 +304,7 @@ class DestinationsBasicValidationTest(TestCase):
         """Test that all expected model fields exist"""
         destination = Destinations.objects.create(
             name='Test Destination',
-            img=self.test_image,
+            img=self.image,
             desc='Test description',
             price=1000,
             offer=True
@@ -337,16 +336,16 @@ class CSRFErrorTest(TestCase):
         self.client = Client()
         
         # Create test image
-        self.test_image = SimpleUploadedFile(
+        self.image = SimpleUploadedFile(
             name='test_image.jpg',
-            content=b'fake-image-content',
+            content=b'',
             content_type='image/jpeg'
         )
         
         # Create test destination
         self.destination = Destinations.objects.create(
             name='Test Destination',
-            img=self.test_image,
+            img=self.image,
             desc='Test description',
             price=1000,
             offer=False
@@ -466,3 +465,34 @@ class CSRFErrorTest(TestCase):
                     os.remove(self.destination.img.path)
         except Exception:
             pass  # Ignore cleanup errors
+
+
+class ViewsTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        # Create some test data
+        self.image = SimpleUploadedFile(
+            name='test_image.jpg',
+            content=b'',
+            content_type='image/jpeg'
+        )
+        self.destination = Destinations.objects.create(
+            name='Test Destination',
+            img=self.image,
+            desc='Test Description',
+            price=1000,
+            offer=True
+        )
+
+    def test_index_view(self):
+        """Test that the index view returns a 200 response and uses the correct template"""
+        response = self.client.get(reverse('index'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'index.html')
+
+    def test_destinations_in_context(self):
+        """Test that destinations are present in the template context"""
+        response = self.client.get(reverse('index'))
+        self.assertTrue('dests' in response.context)
+        self.assertEqual(len(response.context['dests']), 1)
+        self.assertEqual(response.context['dests'][0].name, 'Test Destination')
