@@ -277,7 +277,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 👨‍💻 Author
 
-**Furtuna G.** - *Initial work* - [GitHub Profile]
+**Furtuna G.** - *Initial work* - [from travello template]
 
 ## 🙏 Acknowledgments
 
