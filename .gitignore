@@ -42,3 +42,6 @@ ENV/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Specific file to ignore
+frtuna/management/commands/create_admin_and_destinations.py
