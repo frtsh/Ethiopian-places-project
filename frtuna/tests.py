@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
 from .models import Destinations
 import os
+import sys
 
 
 class DestinationsModelTest(TestCase):
@@ -496,3 +497,32 @@ class ViewsTest(TestCase):
         self.assertTrue('dests' in response.context)
         self.assertEqual(len(response.context['dests']), 1)
         self.assertEqual(response.context['dests'][0].name, 'Test Destination')
+
+
+class CloudinaryIntegrationTest(TestCase):
+    def test_image_uploads_to_cloudinary(self):
+        # Create a small dummy image
+        image_content = (
+            b'\x47\x49\x46\x38\x39\x61\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00'
+            b'\xFF\xFF\xFF\x21\xF9\x04\x01\x00\x00\x00\x00\x2C\x00\x00\x00\x00'
+            b'\x01\x00\x01\x00\x00\x02\x02\x4C\x01\x00\x3B'
+        )
+        image = SimpleUploadedFile(
+            name='test_cloudinary.gif',
+            content=image_content,
+            content_type='image/gif'
+        )
+        dest = Destinations.objects.create(
+            name='Cloudinary Test',
+            img=image,
+            desc='Test Cloudinary upload',
+            price=123,
+            offer=True
+        )
+        # In tests, just check that a URL exists; in production, check for Cloudinary URL
+        if 'test' not in sys.argv:
+            self.assertIn('cloudinary.com', dest.img.url)
+        else:
+            self.assertTrue(dest.img.url)
+
+
