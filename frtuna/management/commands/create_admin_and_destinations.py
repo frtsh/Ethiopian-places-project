@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
-from frtuna.models import destinations
+from frtuna.models import Destinations
 import json
 import os
 
@@ -31,8 +31,8 @@ class Command(BaseCommand):
         for entry in data:
             fields = entry['fields']
             pk = entry['pk']
-            if not destinations.objects.filter(pk=pk).exists():
-                destinations.objects.create(
+            if not Destinations.objects.filter(pk=pk).exists():
+                Destinations.objects.create(
                     id=pk,
                     name=fields['name'],
                     img=fields['img'],
