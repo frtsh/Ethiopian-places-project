@@ -292,6 +292,44 @@ For support and questions:
 - Email: [frtshgebreslassie@gmail.com]
 - Phone: +251937071398
 
+## ⚙️ Environment Variables
+
+- For local development, create a `.env` file in your project root (not tracked by git):
+  ```
+  DATABASE_URL=postgresql://postgres:your_local_password@localhost:5432/your_local_db
+  SECRET_KEY=your_secret_key
+  CLOUDINARY_CLOUD_NAME=your_cloud_name
+  CLOUDINARY_API_KEY=your_api_key
+  CLOUDINARY_API_SECRET=your_api_secret
+  DEBUG=True
+  ```
+- For production (Railway), set these variables in the Railway dashboard under the "Variables" tab. Do **not** push your `.env` to GitHub.
+
+## 🖼️ Media Storage with Cloudinary
+- All uploaded images are stored in Cloudinary (not on the local filesystem or Railway's ephemeral storage).
+- To make images available in production, upload them via Django admin after deployment.
+- Images in `/static/` or `/media/` are not automatically uploaded to Cloudinary.
+
+## 🚀 Deployment on Railway
+
+1. **Set environment variables** in the Railway dashboard (see above).
+2. **Ensure your `railway.json` has:**
+   ```json
+   "startCommand": "python manage.py migrate && python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:$PORT"
+   ```
+3. **Push your code to GitHub.**
+4. **Trigger a deploy on Railway.**
+5. **After deploy, upload images via Django admin to store them in Cloudinary.**
+
+## 🧪 Testing
+- Tests use local file storage for media files (not Cloudinary) for speed and isolation.
+- All tests should pass locally before deploying.
+
+## 📝 Notes
+- `.env` is for local use only and should be in `.gitignore`.
+- Do not hardcode secrets or credentials in your codebase or `railway.json`.
+- Remove any references to old management commands (like `create_admin_and_destinations`).
+- For static files, always run `python manage.py collectstatic --noinput` before or during deploy.
 
 ---
 
