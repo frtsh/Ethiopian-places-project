@@ -194,7 +194,10 @@ CLOUDINARY_STORAGE = {
     'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
 }
-if 'test' in sys.argv:
+
+if len(sys.argv) > 1 and sys.argv[1] == 'test':
     DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 else:
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+print("DEFAULT_FILE_STORAGE in use:", DEFAULT_FILE_STORAGE)
